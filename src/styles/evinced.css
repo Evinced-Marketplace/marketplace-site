@@ -1,0 +1,25 @@
+/* Evinced brand theme for Starlight.
+ * Logo colours: pink #f20587, purple #966dc0, blue #2578e0, navy #1b3050.
+ * Text and link colours are chosen for WCAG AA contrast in both themes. */
+
+:root {
+	--sl-font: 'Proxima Nova', 'Avenir Next', Avenir, 'Segoe UI', system-ui, sans-serif;
+
+	/* Dark theme */
+	--sl-color-accent-low: #1e1b4b;
+	--sl-color-accent: #6366f1;
+	--sl-color-accent-high: #c7d2fe;
+}
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: #e0e7ff;
+	--sl-color-accent: #4f46e5;
+	--sl-color-accent-high: #312e81;
+	--sl-color-white: #1b3050;
+}
+
+/* Brand stripe under the header, in the logo's three colours. */
+header.header {
+	border-bottom: 3px solid transparent;
+	border-image: linear-gradient(90deg, #f20587, #966dc0, #2578e0) 1;
+}

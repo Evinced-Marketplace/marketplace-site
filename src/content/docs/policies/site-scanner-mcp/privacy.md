@@ -1,0 +1,147 @@
+---
+title: Site Scanner MCP Server — Privacy Policy
+description: How Evinced handles information when you use the Evinced Site Scanner MCP Server.
+---
+
+_Last updated: October 6, 2026_
+
+## 1. Introduction and scope
+
+This Privacy Policy explains how Evinced, Inc. ("Evinced", "we", "us") handles information when you use the Evinced Site Scanner MCP Server (the "Service").
+
+1.1 **The Service.** The Service is a Model Context Protocol (MCP) server. It lets an AI assistant you choose read and analyse accessibility scan results from your Evinced Site Scanner account. It is read-focused; the one exception is `create_property`, which creates a new property in your account.
+
+1.2 **Two ways to use it.**
+
+- **Hosted:** Evinced operates the Service at `site-scanner-mcp.evinced.io`. Your AI assistant connects to it over HTTPS.
+- **Local:** you install and run the Service on your own device. It then runs under your control, and Evinced receives only what your device sends to the Evinced platform.
+
+1.3 **What this policy does not cover.** Your Evinced Site Scanner account and the data in it are governed by your agreement with Evinced and by the [Evinced Privacy Policy](https://www.evinced.com/privacy-policy). Your AI assistant (for example Claude or Gemini) is governed by its provider's terms.
+
+## 2. Information we collect
+
+The Service collects only what it needs to answer your AI assistant's requests and to keep a record of them.
+
+2.1 **Access token.** Your AI assistant sends your Evinced access token with each request. The Service uses it to act on your behalf with the Evinced platform. The hosted Service does not store the token. Our records identify it only by a one-way hash.
+
+2.2 **Identity information.** Your token carries your email address, name, Evinced user ID, organization (tenant) and the app you connected with. The Service also reads your organization's name and your internal user ID from the Evinced platform.
+
+2.3 **Requests you make.** The tool your assistant calls and its inputs, such as scan IDs, property IDs, website addresses and property settings.
+
+2.4 **Crawler login details.** If you create a property that needs a login, the username, password or cookies you supply go to the Evinced platform. The Service does not record them.
+
+2.5 **Results from your account.** Scan results, issue details, page addresses, code snippets and page screenshots that the Evinced platform returns to the Service.
+
+2.6 **Technical information (hosted Service only).** IP address, forwarding addresses, the user agent of your AI assistant, the host name, request and trace identifiers, and the time, duration and outcome of each request.
+
+2.7 **Public website content.** When you ask the Service to analyse a website, it requests that site's public pages and derives a summary. It does not keep the pages.
+
+2.8 **What we do not collect.** The Service does not receive your conversations with your AI assistant. It sees only the tool requests the assistant sends.
+
+## 3. How we use information
+
+We use information only to run, secure and improve the Service.
+
+3.1 **To provide the Service:** to sign you in, call the Evinced platform as you, and return results to your AI assistant.
+
+3.2 **To make it faster:** to keep recent results in a short-lived cache, so repeat requests do not call the platform again.
+
+3.3 **To keep it secure:** to record which account called which tool and when, so we can investigate misuse and meet our audit obligations.
+
+3.4 **To operate and improve it:** to diagnose errors, measure performance and understand which tools are used.
+
+3.5 **What we never do.** We do not sell your information, use it for advertising, or use it to train AI models.
+
+3.6 **Legal bases.** Where the GDPR or similar laws apply, we rely on:
+
+- **Performance of a contract**, to provide the Service you asked for (3.1, 3.2).
+- **Legitimate interests**, in securing, auditing and improving the Service (3.3, 3.4).
+- **Legal obligations**, where a law requires us to keep or disclose information.
+
+## 4. Storage and retention
+
+The hosted Service has no database and does not write your information to disk. It keeps a short-lived cache in memory and sends request records to our log provider.
+
+| Information | Where it is kept | How long |
+| --- | --- | --- |
+| Cached results (hosted) | Server memory, separated by account | Scan results: until the server restarts. Lists of scans and properties: 1 hour. Other results: 15 minutes |
+| Request records | Server logs | Until the server restarts |
+| Request records | Our log provider, without your email or name | 30 days |
+| Access token (hosted) | Not stored | — |
+| Access token (local) | A file on your device, readable only by your user account | Until you sign out |
+| Cached results (local) | A folder on your device | Until you clear it |
+| Public website content | Not stored | — |
+
+Servers restart whenever we release a new version, which also clears their cache and local logs.
+
+## 5. Sharing and service providers
+
+We do not sell or rent your information. We share it only as described here.
+
+5.1 **Service providers.** These companies process information for us under contract:
+
+| Provider | Purpose | Information it receives |
+| --- | --- | --- |
+| Auth0 (Okta) | Sign-in and token refresh | Sign-in requests and tokens. You enter your password on Auth0's page, never in the Service |
+| Google Cloud | Hosting, in the United States | All hosted traffic, processed in memory |
+| Coralogix | Log storage and search | Request records without your email address, name or profile details |
+
+5.2 **The Evinced platform.** The Service passes your token and requests to the Evinced Site Scanner platform, which returns your scan data.
+
+5.3 **Your AI assistant.** Results go to the AI assistant you connect, at your direction. Its provider handles them under its own terms.
+
+5.4 **Websites you analyse.** When you ask for a site analysis, our servers request that site's public pages. The site sees our server's address and the user agent `EvincedBot/1.0`, not your token.
+
+5.5 **Legal and corporate.** We may disclose information when the law requires it, to protect our rights or users' safety, or as part of a merger or acquisition under terms at least as protective as this policy.
+
+## 6. Security
+
+We protect your information with technical and organisational measures that fit how the Service works.
+
+- **Encryption in transit:** all connections to the hosted Service use HTTPS.
+- **No stored credentials:** the hosted Service keeps no passwords or tokens. Sign-in uses OAuth 2.0 with PKCE through Auth0.
+- **Separation between accounts:** each account's cached data is keyed to its own token, so one account cannot read another's.
+- **Redaction:** passwords, tokens, cookies, credentials and usernames are removed from request records before they are written.
+- **Restricted fetching:** site analysis reaches only public internet addresses, never our internal network.
+- **Restricted access:** only authorised Evinced personnel can read server logs and log records.
+- **Local installs:** the token file on your device is readable only by your user account.
+
+No system is perfectly secure. To report a security issue, email [security@evinced.com](mailto:security@evinced.com).
+
+## 7. Your choices and rights
+
+7.1 **Disconnect.** Remove the connector from your AI assistant at any time. The Service then receives nothing further from you.
+
+7.2 **Sign out of a local install.** Call the `logout` tool to delete the token stored on your device. Call `authenticate` to sign in again or switch accounts.
+
+7.3 **Clear cached data.** Call the `clear_cache` tool to remove your cached results, for one scan or all of them, from the server that handles the call. Copies on other servers expire as set out in section 4.
+
+7.4 **Your privacy rights.** Depending on where you live, you may have the right to:
+
+- access the information we hold about you;
+- correct it;
+- delete it;
+- restrict or object to how we use it;
+- receive a copy in a portable format;
+- complain to your data protection authority.
+
+To use these rights, contact us (section 9). We answer within the time the law requires. We may keep request records for their retention period where we need them for security or legal reasons.
+
+7.5 **Accounts provided by your organization.** If your organization provides your Evinced account, we may refer your request to it.
+
+## 8. International transfers, children and changes
+
+8.1 **International transfers.** The hosted Service runs in the United States. Our service providers may process information in other countries. Where the law requires it, we protect these transfers with recognised safeguards, such as the EU Standard Contractual Clauses.
+
+8.2 **Children.** The Service is a business tool and is not meant for children under 16. We do not knowingly collect their information.
+
+8.3 **Changes to this policy.** We may update this policy as the Service changes. We will change the date at the top. For material changes, we will also notify account administrators before the change takes effect.
+
+## 9. Contact us
+
+For questions about this policy or to use your privacy rights, contact:
+
+- **Evinced, Inc.** — 25871 Estacada Way, Los Altos Hills, CA 94022, USA
+- **Privacy:** [privacy@evinced.com](mailto:privacy@evinced.com)
+- **Security issues:** [security@evinced.com](mailto:security@evinced.com)
+- **Support:** [support@evinced.com](mailto:support@evinced.com)
