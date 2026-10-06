@@ -1,0 +1,182 @@
+---
+title: Site Scanner MCP Server — Claude Code setup guide
+description: Use Evinced Site Scanner MCP from Claude Code through your Claude organization's connector, and ask about your accessibility scan results from the terminal.
+---
+
+import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+
+Use **Evinced Site Scanner MCP** from **Claude Code** and ask about your accessibility scan results without leaving the terminal. Claude Code uses the Evinced Site Scanner connector of the Claude organization you sign in with, so there's nothing to install.
+
+## The setup at a glance
+
+<CardGrid>
+	<Card title="Part 1 · Before you start" icon="setting">
+		_Once per organization, then once each_
+
+		1. [Get the connector](#step-1--get-the-connector)
+		2. [Sign in to Claude Code](#step-2--sign-in-to-claude-code)
+	</Card>
+	<Card title="Part 2 · Start using it" icon="rocket">
+		_Everyone, once each_
+
+		3. [Connect your Evinced account](#step-3--connect-your-evinced-account)
+		4. [Confirm the connection](#step-4--confirm-the-connection)
+		5. [Ask a real question](#step-5--ask-a-real-question)
+	</Card>
+</CardGrid>
+
+**You need** a Claude Pro, Max, Team or Enterprise plan, Claude Code, an Evinced Site Scanner account, and about 5 minutes.
+
+<Aside type="caution" title="Don't add the server with claude mcp add">
+	Evinced's sign-in accepts only sign-ins that come through claude.ai. If you add `https://site-scanner-mcp.evinced.io/mcp` directly with `claude mcp add`, signing in fails with **Callback URL mismatch**. Use the connector, as below.
+</Aside>
+
+## Part 1 · Before you start
+
+### Step 1 · Get the connector
+
+Claude Code uses the connectors of the Claude organization you're signed in to, so **Evinced Site Scanner** must be one of them.
+
+- **Claude Team or Enterprise:** an Owner adds it once for everyone. Follow [Part 1 of the Claude setup guide](/guides/site-scanner-mcp/claude/#part-1--add-the-connector).
+- **Claude Pro or Max:** add it yourself on claude.ai.
+
+  <Steps>
+
+  1. Open **Customize › Connectors** and choose **Add › Add custom connector**.
+  2. **Name**: `Evinced Site Scanner`
+  3. **MCP server URL**:
+
+     ```text
+     https://site-scanner-mcp.evinced.io/mcp
+     ```
+
+  4. Click **Continue**, keep the sign-in settings claude.ai detects, and click **Add**.
+
+  </Steps>
+
+### Step 2 · Sign in to Claude Code
+
+Claude Code loads your organization's connectors only when it's signed in with your claude.ai account, not with an API key.
+
+<Steps>
+
+1. Check how Claude Code is signed in:
+
+   ```sh
+   claude auth status
+   ```
+
+   Look for `"authMethod": "claude.ai"`.
+
+2. If it shows something else, sign in with your claude.ai account:
+
+   ```sh
+   claude auth login
+   ```
+
+</Steps>
+
+## Part 2 · Start using it
+
+_Everyone does this once, each with their own Evinced account._
+
+### Step 3 · Connect your Evinced account
+
+<Steps>
+
+1. List your MCP servers:
+
+   ```sh
+   claude mcp list
+   ```
+
+   The connector shows up with a `claude.ai` prefix:
+
+   ```text wrap
+   claude.ai Evinced Site Scanner: https://site-scanner-mcp.evinced.io/mcp - ! Needs authentication
+   ```
+
+2. Start the sign-in:
+
+   ```sh
+   claude mcp login "claude.ai Evinced Site Scanner"
+   ```
+
+   Your browser opens a claude.ai page that takes you to the Evinced sign-in.
+
+3. Sign in with your Evinced account.
+4. Start Claude Code again. `claude mcp list` now shows the connector as `✔ Connected`.
+
+</Steps>
+
+<Aside type="tip">
+	Already connected the connector on claude.ai ([step 6 of the Claude guide](/guides/site-scanner-mcp/claude/#step-6--connect-your-evinced-account))? Then it's connected in Claude Code too once you restart it, and you can skip this step.
+</Aside>
+
+### Step 4 · Confirm the connection
+
+The **whoami** tool only reads. It's the quickest way to check which account Claude Code is using.
+
+<Steps>
+
+1. Start Claude Code in any folder and ask:
+
+   ```text wrap
+   Use the Evinced Site Scanner connector to run its whoami tool.
+   ```
+
+2. Claude Code asks before it uses the tool. Choose **Yes**, or **Yes, and don't ask again** for tools you trust.
+3. Claude Code replies with your Evinced account and tenant.
+
+</Steps>
+
+### Step 5 · Ask a real question
+
+Ask in plain language. Claude Code picks the Site Scanner tool that fits.
+
+<Steps>
+
+1. Ask about your sites, for example:
+
+   ```text wrap
+   List my Evinced Site Scanner properties with their latest scan date and score.
+   ```
+
+2. Claude Code runs the matching tool and answers from your live Site Scanner data.
+
+</Steps>
+
+<Aside type="tip" title="Good to know">
+	- **Every tool only reads your Evinced data except Create Property**, which adds a property to your account.
+	- **Everyone signs in as themselves.** Claude Code sees only what your Evinced account can access.
+</Aside>
+
+## If something goes wrong
+
+| What you see | What to do |
+| --- | --- |
+| **Evinced Site Scanner isn't in `claude mcp list`** | Claude Code isn't signed in with a claude.ai account whose organization has the connector. Check [step 1](#step-1--get-the-connector) and [step 2](#step-2--sign-in-to-claude-code). |
+| **The connector shows `! Needs authentication`** | Connect your Evinced account ([step 3](#step-3--connect-your-evinced-account)). |
+| **"Callback URL mismatch"** when you sign in | The server was added with `claude mcp add`. Remove it with `claude mcp remove <name>` and use the connector instead. |
+| **Wrong Evinced account** | On claude.ai, open the connector, choose **⋮ › Disconnect**, then connect again. The sign-in asks for your credentials each time. |
+
+<Aside type="tip" title="Still stuck?">
+	Email [support@evinced.com](mailto:support@evinced.com) and include the connector URL, `https://site-scanner-mcp.evinced.io/mcp`.
+</Aside>
+
+## That's it
+
+**Evinced Site Scanner** is ready in Claude Code. Each person connects their own Evinced account once.
+
+<CardGrid>
+	<LinkCard
+		title="Claude setup guide"
+		href="/guides/site-scanner-mcp/claude/"
+		description="Add the connector to your Claude organization."
+	/>
+	<LinkCard
+		title="Privacy policy"
+		href="/policies/site-scanner-mcp/privacy/"
+		description="What the Site Scanner MCP Server handles, and why."
+	/>
+</CardGrid>

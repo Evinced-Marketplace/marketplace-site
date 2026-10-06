@@ -40,6 +40,7 @@ export default defineConfig({
 							label: 'Site Scanner MCP Server',
 							items: [
 								{ label: 'Claude', slug: 'guides/site-scanner-mcp/claude' },
+								{ label: 'Claude Code', slug: 'guides/site-scanner-mcp/claude-code' },
 								{ label: 'Gemini Enterprise', slug: 'guides/site-scanner-mcp/gemini-enterprise' },
 							],
 						},
