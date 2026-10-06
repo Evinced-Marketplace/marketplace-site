@@ -24,11 +24,11 @@ The Service collects only what it needs to answer your AI assistant's requests a
 
 2.1 **Access token.** Your AI assistant sends your Evinced access token with each request. The Service uses it to act on your behalf with the Evinced platform. The hosted Service holds the token only in memory and never writes it to its records, which identify it by a one-way hash.
 
-2.2 **Identity information.** Your token carries your email address, name, Evinced user ID, organization (tenant) and the app you connected with. The Service also reads your organization's name and your internal user ID from the Evinced platform.
+2.2 **Identity information.** Your token carries your email address, name and Evinced user ID, and the app you connected with. The Service reads your organization (tenant), its name and your internal user ID from the Evinced platform.
 
 2.3 **Requests you make.** The tool your assistant calls and its inputs, such as scan IDs, property IDs, website addresses and property settings.
 
-2.4 **Crawler login details.** If you create a property that needs a login, the username, password or cookies you supply go to the Evinced platform. The Service does not record them.
+2.4 **Crawler login details.** If you create a property that needs a login, the username, password or cookies you supply go to the Evinced platform. The Service removes them from its request records. If the platform rejects the request, its error message is recorded and may repeat part of what you sent.
 
 2.5 **Results from your account.** Scan results, issue details, page addresses, code snippets and page screenshots that the Evinced platform returns to the Service.
 
@@ -44,7 +44,7 @@ We use information only to run, secure and improve the Service.
 
 3.1 **To provide the Service:** to sign you in, call the Evinced platform as you, and return results to your AI assistant.
 
-3.2 **To make it faster:** to keep recent results in a short-lived cache, so repeat requests do not call the platform again.
+3.2 **To make it faster:** to keep results in a cache, so repeat requests do not call the platform again (section 4 sets out how long).
 
 3.3 **To keep it secure:** to record which account called which tool and when, so we can investigate misuse and meet our audit obligations.
 
@@ -60,17 +60,17 @@ We use information only to run, secure and improve the Service.
 
 ## 4. Storage and retention
 
-The hosted Service has no database or file storage of its own. It keeps a cache in memory, writes request records to its server logs, and sends a copy of each record, without your email or name, to our log provider.
+The hosted Service has no database. It keeps a cache in memory, writes request records to server logs on its hosting platform's disks, and sends a copy of each record to our log provider.
 
 | Information | Where it is kept | How long |
 | --- | --- | --- |
-| Cached results (hosted) | Server memory, separated by account | Until the server restarts. Lists of scans and properties are refreshed after 1 hour, other results after 15 minutes; scan results are not refreshed |
+| Cached results (hosted) | Server memory, separated by sign-in token | Until the server restarts. Lists of scans and properties are refreshed after 1 hour, other results after 15 minutes; scan results are not refreshed |
 | Component labels (hosted) | Server memory, shared between accounts | Until the server restarts |
 | Access token (hosted) | Server memory only | Until the server restarts |
-| Request records | Server logs on our hosting platform | Until the server is replaced or its log rotates |
-| Request records | Our log provider, without your email or name | 30 days |
+| Request records | Server logs on our hosting platform's disks | Until the server is replaced or its log rotates |
+| Request records | Our log provider (see section 5) | 30 days |
 | Access token (local) | A file on your device, readable only by your user account | Until you sign out |
-| Cached results (local) | A folder on your device | Until you clear it |
+| Cached results (local) | A folder on your device | Until you clear them or delete the folder |
 | Public website content | Not stored | — |
 
 Component labels are short names, such as "Main navigation", that the Service derives from a page component's own markup. They are cached by component rather than by account, so another account that scans an identical component may see the same label.
@@ -86,8 +86,8 @@ We do not sell or rent your information. We share it only as described here.
 | Provider | Purpose | Information it receives |
 | --- | --- | --- |
 | Auth0 (Okta) | Sign-in and token refresh | Sign-in requests and tokens. You enter your password on Auth0's page, never in the Service |
-| Google Cloud | Hosting, in the United States | All hosted traffic, processed in memory |
-| Coralogix | Log storage and search | Request records without your email address, name or profile details |
+| Google Cloud | Hosting, in the United States | All hosted traffic; the cache in memory and server logs on disk |
+| Coralogix | Log storage and search | Request records without your email, name or profile fields. They include your sign-in ID, organization, IP address and user agent; for single sign-on accounts the sign-in ID can contain your email address |
 
 5.2 **The Evinced platform.** The Service passes your token and requests to the Evinced Site Scanner platform, which returns your scan data.
 
@@ -102,7 +102,7 @@ We do not sell or rent your information. We share it only as described here.
 We protect your information with technical and organisational measures that fit how the Service works.
 
 - **Encryption in transit:** all connections to the hosted Service use HTTPS.
-- **No stored credentials:** the hosted Service keeps no passwords or tokens. Sign-in uses OAuth 2.0 with PKCE through Auth0.
+- **No stored credentials:** the hosted Service never receives your password, writes no tokens to disk or logs, and holds tokens only in memory (section 4). Sign-in uses OAuth 2.0 with PKCE through Auth0.
 - **Separation between accounts:** cached scan data is keyed to each account's own token, so one account cannot read another's. Component labels are the one shared cache (section 4).
 - **Redaction:** passwords, tokens, cookies, credentials and usernames are removed from request records before they are written.
 - **Restricted fetching:** site analysis reaches only public internet addresses, never our internal network.
@@ -117,7 +117,7 @@ No system is perfectly secure. To report a security issue, email [security@evinc
 
 7.2 **Sign out of a local install.** Call the `logout` tool to delete the token stored on your device. Call `authenticate` to sign in again or switch accounts.
 
-7.3 **Clear cached data.** Call the `clear_cache` tool. Without a scan ID it removes all of your cached results. With a scan ID it removes that scan's comparison data, and its raw results too when you set `clear_scan_results`. It acts on the server that handles the call; copies on other servers stay until those servers restart. Shared component labels are not removed.
+7.3 **Clear cached data.** Call the `clear_cache` tool. Without a scan ID it removes the results cached under your current sign-in. With a scan ID it removes that scan's comparison data, and its raw results too when you set `clear_scan_results`. It acts on the server that handles the call. Results cached under an earlier sign-in, copies on other servers and shared component labels stay until the server restarts.
 
 7.4 **Your privacy rights.** Depending on where you live, you may have the right to:
 
@@ -136,7 +136,7 @@ To use these rights, contact us (section 9). We answer within the time the law r
 
 8.1 **International transfers.** The hosted Service runs in the United States. Our service providers may process information in other countries. Where the law requires it, we protect these transfers with recognised safeguards, such as the EU Standard Contractual Clauses.
 
-8.2 **Children.** The Service is a business tool and is not meant for children under 16. We do not knowingly collect their information.
+8.2 **Children.** The Service is a business tool and is not meant for anyone under 18, matching the [Evinced Privacy Policy](https://www.evinced.com/privacy-policy). We do not knowingly collect their information.
 
 8.3 **Changes to this policy.** We may update this policy as the Service changes. We will change the date at the top. For material changes, we will also notify account administrators before the change takes effect.
 
