@@ -25,10 +25,10 @@ Use **Evinced Site Scanner MCP** from **Claude Code** and ask about your accessi
 	</Card>
 </CardGrid>
 
-**You need** a Claude Pro, Max, Team or Enterprise plan, Claude Code, an Evinced Site Scanner account, and about 5 minutes.
+**You need** a Claude Pro, Max, Team or Enterprise plan, an up-to-date Claude Code (`claude update`), an Evinced Site Scanner account, and about 5 minutes.
 
 <Aside type="caution" title="Don't add the server with claude mcp add">
-	Evinced's sign-in accepts only sign-ins that come through claude.ai. If you add `https://site-scanner-mcp.evinced.io/mcp` directly with `claude mcp add`, signing in fails with **Callback URL mismatch**. Use the connector, as below.
+	Evinced's sign-in accepts Claude Code only through claude.ai. If you add `https://site-scanner-mcp.evinced.io/mcp` directly with `claude mcp add`, signing in fails with **Callback URL mismatch**. Use the connector, as below.
 </Aside>
 
 ## Part 1 · Before you start
@@ -56,7 +56,7 @@ Claude Code uses the connectors of the Claude organization you're signed in to, 
 
 ### Step 2 · Sign in to Claude Code
 
-Claude Code loads your organization's connectors only when it's signed in with your claude.ai account, not with an API key.
+Claude Code loads your organization's connectors only when it's signed in with your claude.ai account, not with an API key or through a cloud provider such as Amazon Bedrock.
 
 <Steps>
 
@@ -66,13 +66,15 @@ Claude Code loads your organization's connectors only when it's signed in with y
    claude auth status
    ```
 
-   Look for `"authMethod": "claude.ai"`.
+   Look for `"authMethod": "claude.ai"`, and for the organization that has the connector in `orgName`.
 
 2. If it shows something else, sign in with your claude.ai account:
 
    ```sh
    claude auth login
    ```
+
+   If `authMethod` still isn't `claude.ai`, for example `third_party`, a setting in your environment such as `ANTHROPIC_API_KEY` or `CLAUDE_CODE_USE_BEDROCK` points Claude Code elsewhere. Remove it and check again.
 
 </Steps>
 
@@ -81,6 +83,10 @@ Claude Code loads your organization's connectors only when it's signed in with y
 _Everyone does this once, each with their own Evinced account._
 
 ### Step 3 · Connect your Evinced account
+
+<Aside type="tip">
+	Already connected the connector on claude.ai ([step 6 of the Claude guide](/guides/site-scanner-mcp/claude/#step-6--connect-your-evinced-account))? Then it's connected in Claude Code too once you restart it, and you can skip this step.
+</Aside>
 
 <Steps>
 
@@ -102,16 +108,12 @@ _Everyone does this once, each with their own Evinced account._
    claude mcp login "claude.ai Evinced Site Scanner"
    ```
 
-   Your browser opens a claude.ai page that takes you to the Evinced sign-in.
+   Your browser opens a claude.ai page that takes you to the Evinced sign-in. On a machine without a browser, such as over SSH, add `--no-browser` and follow the prompts.
 
 3. Sign in with your Evinced account.
-4. Start Claude Code again. `claude mcp list` now shows the connector as `✔ Connected`.
+4. If Claude Code is running, restart it. `claude mcp list` now shows the connector as `✔ Connected`.
 
 </Steps>
-
-<Aside type="tip">
-	Already connected the connector on claude.ai ([step 6 of the Claude guide](/guides/site-scanner-mcp/claude/#step-6--connect-your-evinced-account))? Then it's connected in Claude Code too once you restart it, and you can skip this step.
-</Aside>
 
 ### Step 4 · Confirm the connection
 
@@ -155,10 +157,10 @@ Ask in plain language. Claude Code picks the Site Scanner tool that fits.
 
 | What you see | What to do |
 | --- | --- |
-| **Evinced Site Scanner isn't in `claude mcp list`** | Claude Code isn't signed in with a claude.ai account whose organization has the connector. Check [step 1](#step-1--get-the-connector) and [step 2](#step-2--sign-in-to-claude-code). |
+| **Evinced Site Scanner isn't in `claude mcp list`** | Claude Code isn't signed in with a claude.ai account whose organization has the connector. Check [step 1](#step-1--get-the-connector) and [step 2](#step-2--sign-in-to-claude-code). On Team or Enterprise, ask an Owner to check the connector's **Roles with access**. Claude Code also skips connectors when `ENABLE_CLAUDEAI_MCP_SERVERS` is `false` or the `disableClaudeAiConnectors` setting is on. |
 | **The connector shows `! Needs authentication`** | Connect your Evinced account ([step 3](#step-3--connect-your-evinced-account)). |
 | **"Callback URL mismatch"** when you sign in | The server was added with `claude mcp add`. Remove it with `claude mcp remove <name>` and use the connector instead. |
-| **Wrong Evinced account** | On claude.ai, open the connector, choose **⋮ › Disconnect**, then connect again. The sign-in asks for your credentials each time. |
+| **Wrong Evinced account** | On claude.ai, open the connector in **Customize › Connectors**, choose **⋮ › Disconnect**, then connect again and restart Claude Code. The sign-in asks for your credentials each time. Don't choose **Remove from your team**: that removes it for everyone. |
 
 <Aside type="tip" title="Still stuck?">
 	Email [support@evinced.com](mailto:support@evinced.com) and include the connector URL, `https://site-scanner-mcp.evinced.io/mcp`.
