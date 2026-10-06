@@ -7,8 +7,8 @@ Source for marketplace.evinced.com, an Astro Starlight site with the starlight-b
 - **Every change is a pull request.** Merging to `main` publishes to GitHub Pages; never push to `main`.
 - **`npm run build` must pass** before you open a pull request. CI runs the same build.
 - **Policy pages are legal text.** Change wording only when the owner asks, and update the "Last updated" line.
-- **New pages go in the sidebar.** Policies and guides are listed by hand in `astro.config.mjs`. Blog posts are listed by the plugin.
-- **Accessible by default.** Keep one `h1` per page (the frontmatter `title`), ordered headings, and the brand colours in `src/styles/evinced.css`, which meet WCAG AA contrast.
+- **New pages go in the sidebar.** Policies and guides are listed by hand in `astro.config.mjs`. Blog posts are listed by the plugin; with the first post, set the blog's `navigation` back to `'header-end'` and restore its landing-page card.
+- **Accessible by default.** Keep one `h1` per page (the frontmatter `title`), ordered headings, and the brand colours in `src/styles/evinced.css`, which meet WCAG AA contrast. Scan the site with Evinced Site Scanner after big changes.
 
 ## Development
 

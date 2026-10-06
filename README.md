@@ -24,6 +24,4 @@ npm run build     # the same build CI runs
 
 ## Rules
 
-- Every change goes through a pull request. Merging to `main` publishes it.
-- Policy pages are legal text: change them only with sign-off from the policy owner, and update the "Last updated" date.
-- The site must stay accessible. Check contrast and headings for new pages, and scan the site with Evinced Site Scanner after big changes.
+The rules for changing the site live in [`CLAUDE.md`](CLAUDE.md).

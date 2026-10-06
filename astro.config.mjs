@@ -19,7 +19,8 @@ export default defineConfig({
 			},
 			favicon: '/favicon.svg',
 			customCss: ['./src/styles/evinced.css'],
-			plugins: [starlightBlog({ title: 'Tips & blog', navigation: 'header-end' })],
+			// No header link until the blog has posts: switch navigation to 'header-end' with the first one.
+			plugins: [starlightBlog({ title: 'Tips & blog', navigation: 'none' })],
 			sidebar: [
 				{
 					label: 'Policies',

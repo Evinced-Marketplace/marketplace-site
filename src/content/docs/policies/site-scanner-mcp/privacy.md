@@ -22,17 +22,17 @@ This Privacy Policy explains how Evinced, Inc. ("Evinced", "we", "us") handles i
 
 The Service collects only what it needs to answer your AI assistant's requests and to keep a record of them.
 
-2.1 **Access token.** Your AI assistant sends your Evinced access token with each request. The Service uses it to act on your behalf with the Evinced platform. The hosted Service holds the token only in memory and never writes it to its records, which identify it by a one-way hash.
+2.1 **Access token.** Your AI assistant sends your Evinced access token with each request. The Service uses it to act on your behalf with the Evinced platform. The hosted Service holds the token only in memory and never writes it to its records, which identify it by a one-way hash. When you sign in through a web connector, the hosted Service also relays the sign-in exchange between your AI assistant and Auth0 (authorization codes and tokens) without keeping or recording it.
 
 2.2 **Identity information.** Your token carries your email address, name and Evinced user ID, and the app you connected with. The Service reads your organization (tenant), its name and your internal user ID from the Evinced platform.
 
 2.3 **Requests you make.** The tool your assistant calls and its inputs, such as scan IDs, property IDs, website addresses and property settings.
 
-2.4 **Crawler login details.** If you create a property that needs a login, the username, password or cookies you supply go to the Evinced platform. The Service removes them from its request records. If the platform rejects the request, its error message is recorded and may repeat part of what you sent.
+2.4 **Crawler login details.** If you create a property that needs a login, the username, password or cookies you supply go to the Evinced platform. The Service removes them from its request records. If the platform rejects the request, its error message is recorded and may repeat part of what you sent. When your assistant later reads the property back, the platform's response may include these details; the Service caches that response like other results and passes it to your assistant.
 
 2.5 **Results from your account.** Scan results, issue details, page addresses, code snippets and page screenshots that the Evinced platform returns to the Service.
 
-2.6 **Technical information (hosted Service only).** IP address, forwarding addresses, the user agent of your AI assistant, the host name, request and trace identifiers, and the time, duration and outcome of each request.
+2.6 **Technical information (hosted Service only).** IP address, forwarding addresses, the user agent of your AI assistant, the host name, request and trace identifiers, and the time, duration and outcome of each request. Our hosting platform's gateway also logs each request's IP address, user agent and address.
 
 2.7 **Public website content.** When you ask the Service to analyse a website, it requests that site's public pages and derives a summary. It does not keep the pages.
 
@@ -69,8 +69,9 @@ The hosted Service has no database. It keeps a cache in memory, writes request r
 | Access token (hosted) | Server memory only | Until the server restarts |
 | Request records | Server logs on our hosting platform's disks | Until the server is replaced or its log rotates |
 | Request records | Our log provider (see section 5) | 30 days |
-| Access token (local) | A file on your device, readable only by your user account | Until you sign out |
-| Cached results (local) | A folder on your device | Until you clear them or delete the folder |
+| Gateway records | Our hosting platform's gateway logs | Under our hosting platform's log retention |
+| Access token (local) | A file on your device, readable only by your user account on macOS and Linux | Until you sign out |
+| Cached results (local) | A folder in your home directory, with your system's default file permissions | Until you clear them or delete the folder. Results cached under an earlier sign-in stay until you delete the folder |
 | Public website content | Not stored | — |
 
 Component labels are short names, such as "Main navigation", that the Service derives from a page component's own markup. They are cached by component rather than by account, so another account that scans an identical component may see the same label.
@@ -102,12 +103,12 @@ We do not sell or rent your information. We share it only as described here.
 We protect your information with technical and organisational measures that fit how the Service works.
 
 - **Encryption in transit:** all connections to the hosted Service use HTTPS.
-- **No stored credentials:** the hosted Service never receives your password, writes no tokens to disk or logs, and holds tokens only in memory (section 4). Sign-in uses OAuth 2.0 with PKCE through Auth0.
+- **No stored credentials:** the hosted Service never receives your Evinced account password, writes no tokens to disk or logs, and holds tokens only in memory (section 4). Sign-in uses OAuth 2.0 with PKCE through Auth0.
 - **Separation between accounts:** cached scan data is keyed to each account's own token, so one account cannot read another's. Component labels are the one shared cache (section 4).
-- **Redaction:** passwords, tokens, cookies, credentials and usernames are removed from request records before they are written.
+- **Redaction:** before a request record is written, the Service removes the values of inputs named like passwords, secrets, tokens, cookies, credentials or usernames, and token-shaped text in error messages.
 - **Restricted fetching:** site analysis reaches only public internet addresses, never our internal network.
-- **Restricted access:** only authorised Evinced personnel can read server logs and log records.
-- **Local installs:** the token file on your device is readable only by your user account.
+- **Restricted access:** server logs are available to Evinced personnel on our internal network; records at our log provider are available only to authorised Evinced personnel.
+- **Local installs:** on macOS and Linux, the token file on your device is readable only by your user account.
 
 No system is perfectly secure. To report a security issue, email [security@evinced.com](mailto:security@evinced.com).
 
@@ -117,7 +118,7 @@ No system is perfectly secure. To report a security issue, email [security@evinc
 
 7.2 **Sign out of a local install.** Call the `logout` tool to delete the token stored on your device. Call `authenticate` to sign in again or switch accounts.
 
-7.3 **Clear cached data.** Call the `clear_cache` tool. Without a scan ID it removes the results cached under your current sign-in. With a scan ID it removes that scan's comparison data, and its raw results too when you set `clear_scan_results`. It acts on the server that handles the call. Results cached under an earlier sign-in, copies on other servers and shared component labels stay until the server restarts.
+7.3 **Clear cached data.** Call the `clear_cache` tool. Without a scan ID it removes the results cached under your current sign-in. With a scan ID it removes that scan's comparison data, and its raw results too when you set `clear_scan_results`. On the hosted Service it acts on the server that handles the call; results cached under an earlier sign-in, copies on other servers and shared component labels stay until the server restarts. On a local install, results cached under an earlier sign-in stay until you delete the cache folder.
 
 7.4 **Your privacy rights.** Depending on where you live, you may have the right to:
 
@@ -138,13 +139,13 @@ To use these rights, contact us (section 9). We answer within the time the law r
 
 8.2 **Children.** The Service is a business tool and is not meant for anyone under 18, matching the [Evinced Privacy Policy](https://www.evinced.com/privacy-policy). We do not knowingly collect their information.
 
-8.3 **Changes to this policy.** We may update this policy as the Service changes. We will change the date at the top. For material changes, we will also notify account administrators before the change takes effect.
+8.3 **Changes to this policy.** We may change this policy at any time. When we do, we will post the updated version on this page and change the date at the top.
 
 ## 9. Contact us
 
 For questions about this policy or to use your privacy rights, contact:
 
-- **Evinced, Inc.** — 25871 Estacada Way, Los Altos Hills, CA 94022, USA
+- **Evinced, Inc.** — 3790 El Camino Real, Unit 551, Palo Alto, CA 94306, USA
 - **Privacy:** [privacy@evinced.com](mailto:privacy@evinced.com)
 - **Security issues:** [security@evinced.com](mailto:security@evinced.com)
 - **Support:** [support@evinced.com](mailto:support@evinced.com)
