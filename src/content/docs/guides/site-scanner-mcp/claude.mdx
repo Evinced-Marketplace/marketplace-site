@@ -1,8 +1,6 @@
 ---
 title: Site Scanner MCP Server — Claude setup guide
 description: Add the Evinced Site Scanner connector to Claude, connect your Evinced account and ask Claude about your accessibility scan results.
-sidebar:
-  label: Claude
 ---
 
 import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
@@ -64,6 +62,7 @@ Every value used in steps 3 and 4. Copy them exactly.
 <Aside type="tip" title="Good to know">
 	- **Nothing else to configure.** The Site Scanner server sets up sign-in with Claude on its own, so the OAuth client fields stay empty.
 	- **Everyone signs in as themselves.** Each person connects their own Evinced account (step 6) and sees only what that account can access.
+	- **One tool makes changes.** Every tool only reads your Evinced data except **Create Property**, which adds a property to your account. An Owner can turn it off for the organization (step 5).
 	- **Claude may ask before using a tool.** The first time Claude uses a Site Scanner tool it can ask for your approval. Choose **Allow**, or **Always allow** for tools you trust.
 </Aside>
 

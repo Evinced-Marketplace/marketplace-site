@@ -1,8 +1,6 @@
 ---
 title: Site Scanner MCP Server — Gemini Enterprise setup guide
 description: Add Evinced Site Scanner MCP to Gemini Enterprise as a custom MCP server, connect your Evinced account and ask Gemini about your accessibility scan results.
-sidebar:
-  label: Gemini Enterprise
 ---
 
 import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
@@ -79,6 +77,7 @@ Every value used in steps 4, 6 and 7. Copy them exactly.
 <Aside type="tip" title="Good to know">
 	- **Why fill in OAuth by hand?** Gemini Enterprise doesn't discover sign-in settings on its own, so you enter them once. The URLs point at the Site Scanner server, which hands the sign-in to Evinced.
 	- **No client secret.** The Site Scanner server keeps the secret on its side, and PKCE protects the sign-in, so leave the secret empty and HTTP Basic auth off.
+	- **One tool makes changes.** Every tool only reads your Evinced data except **Create Property**, which adds a property to your account. To keep Gemini read-only, leave it disabled in step 7.
 	- **Everyone signs in as themselves.** The sign-ins in steps 5 and 7 are only for the admin. Each person authorises Evinced Site Scanner in the Gemini app with their own Evinced account (step 8) and sees only what that account can access.
 </Aside>
 
@@ -282,7 +281,7 @@ Gemini works only with what your Evinced account can access.
 <Steps>
 
 1. Open your Gemini Enterprise app and click **Sources**, the sliders icon under the prompt box.
-2. Next to **Evinced Site Scanner**, click **Authorise** and sign in with your Evinced account.
+2. Next to **Evinced Site Scanner**, click **Authorise** (**Authorize** in US English) and sign in with your Evinced account.
 3. The pop-up closes and the **Evinced Site Scanner** toggle is on.
 
 </Steps>
@@ -373,7 +372,7 @@ Ask in plain language. Gemini picks the Site Scanner tool that fits.
 | **"Operation denied by org policy"** when you click Create | Your organization still blocks custom MCP servers for Gemini Enterprise. Complete [step 1](#step-1--check-the-mcp-policy), wait a few minutes (up to 15), and click **Create** again. |
 | **"Callback URL mismatch"** when you click Verify Auth | Evinced's sign-in doesn't recognise Gemini Enterprise. Email [support@evinced.com](mailto:support@evinced.com). |
 | **"No actions are enabled"** after you create the connector | Gemini can't use any tool yet. Complete [step 7](#step-7--turn-on-the-tools): reload the actions, select all, and click **Enable actions**. |
-| **Evinced Site Scanner shows "Authorise"** in the Gemini app | That's expected the first time. Click it and sign in with your Evinced account ([step 8](#step-8--connect-your-evinced-account)). |
+| **Evinced Site Scanner shows "Authorise"** (or "Authorize") in the Gemini app | That's expected the first time. Click it and sign in with your Evinced account ([step 8](#step-8--connect-your-evinced-account)). |
 
 <details>
 <summary>What the org policy error looks like</summary>
