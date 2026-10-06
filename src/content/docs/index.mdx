@@ -5,9 +5,12 @@ template: splash
 hero:
   tagline: Accessibility tools that work inside your AI assistant, with the policies and guides behind them.
   actions:
+    - text: Set up Site Scanner MCP
+      link: /guides/
+      icon: right-arrow
     - text: Site Scanner MCP privacy policy
       link: /policies/site-scanner-mcp/privacy/
-      icon: right-arrow
+      variant: minimal
 ---
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
@@ -17,14 +20,17 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 <CardGrid>
 	<Card title="Site Scanner MCP Server" icon="magnifier">
 		Lets Claude, Gemini and other AI assistants read your Evinced Site Scanner results, rank fixes
-		and compare scans. [Privacy policy](/policies/site-scanner-mcp/privacy/)
+		and compare scans. Set it up in [Claude](/guides/site-scanner-mcp/claude/) or
+		[Gemini Enterprise](/guides/site-scanner-mcp/gemini-enterprise/). [Privacy
+		policy](/policies/site-scanner-mcp/privacy/)
 	</Card>
 </CardGrid>
 
 ## Resources
 
 <CardGrid>
+	<LinkCard title="Guides" href="/guides/" description="Step-by-step setup for each product." />
 	<LinkCard title="Policies" href="/policies/" description="Privacy and security terms for each product." />
 </CardGrid>
 
-Setup guides and tips are on their way. Until then, [support@evinced.com](mailto:support@evinced.com) can help.
+Need a hand? [support@evinced.com](mailto:support@evinced.com) can help.

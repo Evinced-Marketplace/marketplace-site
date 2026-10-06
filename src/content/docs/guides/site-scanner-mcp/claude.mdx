@@ -1,0 +1,296 @@
+---
+title: Site Scanner MCP Server — Claude setup guide
+description: Add the Evinced Site Scanner connector to Claude, connect your Evinced account and ask Claude about your accessibility scan results.
+---
+
+import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+import Figure from '../../../../components/Figure.astro';
+import add from '../../../../assets/guides/site-scanner-mcp/claude/add.png';
+import custom from '../../../../assets/guides/site-scanner-mcp/claude/custom.png';
+import dialog from '../../../../assets/guides/site-scanner-mcp/claude/dialog.png';
+import details from '../../../../assets/guides/site-scanner-mcp/claude/details.png';
+import listed from '../../../../assets/guides/site-scanner-mcp/claude/listed.png';
+import card from '../../../../assets/guides/site-scanner-mcp/claude/card.png';
+import login from '../../../../assets/guides/site-scanner-mcp/claude/login.png';
+import after from '../../../../assets/guides/site-scanner-mcp/claude/after.png';
+import chat from '../../../../assets/guides/site-scanner-mcp/claude/chat.png';
+import whoami from '../../../../assets/guides/site-scanner-mcp/claude/whoami.png';
+import list from '../../../../assets/guides/site-scanner-mcp/claude/list.png';
+
+Connect **Claude** to **Evinced Site Scanner MCP** and ask Claude about your accessibility scan results in plain language. An Owner adds the connector once; then each person connects their own Evinced account.
+
+## The setup at a glance
+
+<CardGrid>
+	<Card title="Part 1 · Add the connector" icon="setting">
+		_Claude organization Owner, once_
+
+		1. [Open Connectors](#step-1--open-connectors)
+		2. [Choose Custom › Web](#step-2--choose-custom--web)
+		3. [Enter the name and URL](#step-3--enter-the-name-and-url)
+		4. [Keep the defaults](#step-4--keep-the-defaults)
+		5. [Check it's listed](#step-5--check-its-listed)
+	</Card>
+	<Card title="Part 2 · Start using it" icon="rocket">
+		_Everyone, once each_
+
+		6. [Connect your Evinced account](#step-6--connect-your-evinced-account)
+		7. [Turn it on in a chat](#step-7--turn-it-on-in-a-chat)
+		8. [Confirm the connection](#step-8--confirm-the-connection)
+		9. [Ask a real question](#step-9--ask-a-real-question)
+	</Card>
+</CardGrid>
+
+**You need** the Owner role in a Claude Team or Enterprise organization, an Evinced Site Scanner account, and about 5 minutes.
+
+<Aside title="On Claude Pro or Max?">
+	Add the connector yourself: **Customize › Connectors › + › Add custom connector**, with the same name and URL.
+</Aside>
+
+## What you'll enter
+
+Every value used in steps 3 and 4. Copy them exactly.
+
+| Field | Value |
+| --- | --- |
+| Name | `Evinced Site Scanner` |
+| MCP server URL | `https://site-scanner-mcp.evinced.io/mcp` |
+| OAuth client ID (Advanced settings) | _Leave empty_ |
+| OAuth client secret (Advanced settings) | _Leave empty_ |
+| Browser sign-in | On |
+
+<Aside type="tip" title="Good to know">
+	- **Nothing else to configure.** The Site Scanner server sets up sign-in with Claude on its own, so the OAuth client fields stay empty.
+	- **Everyone signs in as themselves.** Each person connects their own Evinced account (step 6) and sees only what that account can access.
+	- **One tool makes changes.** Every tool only reads your Evinced data except **Create Property**, which adds a property to your account. An Owner can turn it off for the organization (step 5).
+	- **Claude may ask before using a tool.** The first time Claude uses a Site Scanner tool it can ask for your approval. Choose **Allow**, or **Always allow** for tools you trust.
+</Aside>
+
+## Part 1 · Add the connector
+
+_A Claude organization Owner does this once._
+
+### Step 1 · Open Connectors
+
+Adding a connector for your whole organization takes the **Owner** role.
+
+<Steps>
+
+1. In Claude, open **Organization settings › Connectors**.
+2. Click **+ Add**.
+
+</Steps>
+
+<Figure
+	src={add}
+	width={760}
+	alt="Claude's Connectors settings page listing the organization's connectors, with the Add button at top right highlighted as action 2."
+/>
+
+### Step 2 · Choose Custom › Web
+
+The Site Scanner server is hosted online, so it's a **Web** connector.
+
+<Steps>
+
+1. Hover **Custom**.
+2. Click **Web**.
+
+</Steps>
+
+<Figure
+	src={custom}
+	width={760}
+	alt="The Add menu open, with Custom highlighted as action 1 and its Web option highlighted as action 2."
+/>
+
+<Aside>**Desktop** is only for extensions installed on a computer.</Aside>
+
+### Step 3 · Enter the name and URL
+
+The **Add custom connector** dialog opens.
+
+<Steps>
+
+1. **Name**: `Evinced Site Scanner`
+2. **MCP server URL**:
+
+   ```text
+   https://site-scanner-mcp.evinced.io/mcp
+   ```
+
+3. Click **Continue**.
+
+</Steps>
+
+<Figure
+	src={dialog}
+	width={500}
+	alt="The Add custom connector dialog, with the name Evinced Site Scanner as action 1, the MCP server URL as action 2 and the Continue button as action 3."
+/>
+
+### Step 4 · Keep the defaults
+
+Claude then shows the connector's settings. There's nothing to change.
+
+<Steps>
+
+1. **Advanced settings**: leave **OAuth client ID** and **OAuth client secret** empty.
+2. **Authentication**: keep **Browser sign-in** on, so each person signs in with their own Evinced account.
+3. Click **Add**.
+
+</Steps>
+
+<Figure
+	src={details}
+	width={460}
+	alt="The connector's settings: name Evinced Site Scanner and its MCP server URL, the OAuth client ID and secret marked Leave empty, and Browser sign-in marked Keep on."
+	caption="These settings, as shown for the added connector"
+/>
+
+### Step 5 · Check it's listed
+
+**Evinced Site Scanner** now appears in your organization's connectors as a **Web**, **Custom** connector.
+
+<Steps>
+
+1. Search for **Evinced** to find it.
+2. Click it any time to review its settings or limit which tools people can use.
+
+</Steps>
+
+<Figure
+	src={listed}
+	width={760}
+	alt="The organization's connectors filtered to Evinced, showing Evinced Site Scanner as a Web, Custom connector."
+/>
+
+## Part 2 · Start using it
+
+_Everyone does this once, each with their own Evinced account._
+
+### Step 6 · Connect your Evinced account
+
+<Steps>
+
+1. Open **Customize › Connectors**, search for **Evinced Site Scanner**, and click **+** on its card.
+
+   <Figure
+   	src={card}
+   	width={420}
+   	alt="The Evinced Site Scanner connector card in Customize, Connectors, with its plus button highlighted as action 1."
+   />
+
+2. Sign in with your Evinced account.
+
+   <Figure
+   	src={login}
+   	width={330}
+   	alt="The Evinced log-in page, with the email field and Continue button highlighted as action 2."
+   />
+
+3. Back in Claude, the card shows a check: you're connected.
+
+   <Figure
+   	src={after}
+   	width={420}
+   	alt="The Evinced Site Scanner connector card with a green check, marked Connected."
+   />
+
+</Steps>
+
+### Step 7 · Turn it on in a chat
+
+Connectors can be switched on or off for each chat.
+
+<Steps>
+
+1. In the message box, click **+**.
+2. Open **Connectors**.
+3. Make sure **Evinced Site Scanner** is switched on.
+
+</Steps>
+
+<Figure
+	src={chat}
+	width={520}
+	alt="Claude's message box: the plus button as action 1, the Connectors menu item as action 2, and the Evinced Site Scanner toggle switched on as action 3."
+/>
+
+### Step 8 · Confirm the connection
+
+The **whoami** tool only reads. It's the quickest way to check which account Claude is using.
+
+<Steps>
+
+1. Ask:
+
+   ```text wrap
+   Use the Evinced Site Scanner connector to run its whoami tool.
+   ```
+
+2. Claude notes it **used Evinced Site Scanner** and replies with your Evinced account and tenant.
+
+</Steps>
+
+<Figure
+	src={whoami}
+	width={700}
+	alt="Claude's answer after using the Evinced Site Scanner integration, naming the connected user and tenant, highlighted as your account and tenant. The values are censored."
+	caption="Account details censored for this guide"
+/>
+
+<Aside>If Claude asks for approval to use the tool, choose **Allow**.</Aside>
+
+### Step 9 · Ask a real question
+
+Ask in plain language. Claude picks the Site Scanner tool that fits.
+
+<Steps>
+
+1. Ask about your sites, for example:
+
+   ```text wrap
+   List my Evinced Site Scanner properties with their latest scan date and score.
+   ```
+
+2. Claude runs the matching tool (here, **List properties**) and answers from your live Site Scanner data.
+
+</Steps>
+
+<Figure
+	src={list}
+	width={700}
+	alt="Claude's answer from the List properties tool: a table of properties with their last scan date and score. The values are censored."
+	caption="Property names, dates and scores censored for this guide"
+/>
+
+## If something goes wrong
+
+| What you see | What to do |
+| --- | --- |
+| **No "Custom" option** when you click Add | Only **Owners** can add custom connectors to an organization. Ask an Owner to do Part 1. On Pro or Max, add it yourself from **Customize › Connectors**. |
+| **Evinced Site Scanner isn't listed** in Customize › Connectors | An Owner hasn't added it yet, or your role doesn't have access to it. Ask an Owner to check the connector's **Roles with access**. |
+| **Claude doesn't use Site Scanner** in a chat | Turn the connector on for that chat: **+ › Connectors › Evinced Site Scanner** ([step 7](#step-7--turn-it-on-in-a-chat)). |
+| **Wrong Evinced account** after you connect | Open the connector, choose **⋮ › Disconnect**, then connect again. The sign-in asks for your credentials each time. Don't choose **Remove from your team**: that removes it for everyone. |
+
+<Aside type="tip" title="Still stuck?">
+	Email [support@evinced.com](mailto:support@evinced.com) and include the connector URL, `https://site-scanner-mcp.evinced.io/mcp`.
+</Aside>
+
+## That's it
+
+**Evinced Site Scanner** is ready in Claude. Each person connects their own Evinced account once.
+
+<CardGrid>
+	<LinkCard
+		title="Gemini Enterprise setup guide"
+		href="/guides/site-scanner-mcp/gemini-enterprise/"
+		description="Add the same server to Gemini Enterprise."
+	/>
+	<LinkCard
+		title="Privacy policy"
+		href="/policies/site-scanner-mcp/privacy/"
+		description="What the Site Scanner MCP Server handles, and why."
+	/>
+</CardGrid>
