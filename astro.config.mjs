@@ -34,7 +34,16 @@ export default defineConfig({
 				},
 				{
 					label: 'Guides',
-					items: [{ label: 'Overview', slug: 'guides' }],
+					items: [
+						{ label: 'Overview', slug: 'guides' },
+						{
+							label: 'Site Scanner MCP Server',
+							items: [
+								{ label: 'Claude', slug: 'guides/site-scanner-mcp/claude' },
+								{ label: 'Gemini Enterprise', slug: 'guides/site-scanner-mcp/gemini-enterprise' },
+							],
+						},
+					],
 				},
 			],
 		}),

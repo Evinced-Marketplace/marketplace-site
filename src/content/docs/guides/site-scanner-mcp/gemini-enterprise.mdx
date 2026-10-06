@@ -1,0 +1,414 @@
+---
+title: Site Scanner MCP Server — Gemini Enterprise setup guide
+description: Add Evinced Site Scanner MCP to Gemini Enterprise as a custom MCP server, connect your Evinced account and ask Gemini about your accessibility scan results.
+sidebar:
+  label: Gemini Enterprise
+---
+
+import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+import Figure from '../../../../components/Figure.astro';
+import policyedit from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/policyedit.png';
+import stores from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/stores.png';
+import source from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/source.png';
+import form from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/form.png';
+import login from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/login.png';
+import success from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/success.png';
+import name from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/name.png';
+import created from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/created.png';
+import actions from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/actions.png';
+import sources from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/sources.png';
+import sourcesOn from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/sources-on.png';
+import askConfirm from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/ask-confirm.png';
+import whoami from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/whoami.png';
+import listConfirm from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/list-confirm.png';
+import listResult from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/list-result.png';
+import denied from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/denied.png';
+import live from '../../../../assets/guides/site-scanner-mcp/gemini-enterprise/live.png';
+
+Connect **Gemini Enterprise** to **Evinced Site Scanner MCP** and ask Gemini about your accessibility scan results in plain language. An admin adds the connector once; then each person connects their own Evinced account.
+
+## The setup at a glance
+
+<CardGrid>
+	<Card title="Part 1 · Before you start" icon="information">
+		_Google Cloud admin, once_
+
+		1. [Check the MCP policy](#step-1--check-the-mcp-policy)
+
+		Evinced has already enabled Gemini Enterprise sign-in on its side.
+	</Card>
+	<Card title="Part 2 · Add the connector" icon="setting">
+		_Gemini Enterprise admin, once_
+
+		2. [Start a new data store](#step-2--start-a-new-data-store)
+		3. [Choose Custom MCP Server](#step-3--choose-custom-mcp-server)
+		4. [Enter the server details](#step-4--enter-the-server-details)
+		5. [Sign in to verify](#step-5--sign-in-to-verify)
+		6. [Name it and create](#step-6--name-it-and-create)
+		7. [Turn on the tools](#step-7--turn-on-the-tools)
+	</Card>
+	<Card title="Part 3 · Start using it" icon="rocket">
+		_Everyone, once each_
+
+		8. [Connect your Evinced account](#step-8--connect-your-evinced-account)
+		9. [Confirm the connection](#step-9--confirm-the-connection)
+		10. [Ask a real question](#step-10--ask-a-real-question)
+	</Card>
+</CardGrid>
+
+**You need** admin access to Gemini Enterprise, an Evinced Site Scanner account, and about 15 minutes.
+
+## What you'll enter
+
+Every value used in steps 4, 6 and 7. Copy them exactly.
+
+| Field | Value |
+| --- | --- |
+| MCP Server URL | `https://site-scanner-mcp.evinced.io/mcp` |
+| Authorization URL | `https://site-scanner-mcp.evinced.io/authorize` |
+| Authorization URL Parameters | _Leave empty_ |
+| Token URL | `https://site-scanner-mcp.evinced.io/token` |
+| Client ID | `iIHIYWjC4dNEWfjVw4g0knyUpgmNolGS` |
+| Client Secret | _Leave empty_ |
+| Scopes | `openid profile email offline_access` |
+| Enable PKCE Support | On |
+| Use HTTP Basic Authentication | Off |
+| Data connector name | `Evinced Site-Scanner` |
+| Actions to enable | All of them |
+
+<Aside type="tip" title="Good to know">
+	- **Why fill in OAuth by hand?** Gemini Enterprise doesn't discover sign-in settings on its own, so you enter them once. The URLs point at the Site Scanner server, which hands the sign-in to Evinced.
+	- **No client secret.** The Site Scanner server keeps the secret on its side, and PKCE protects the sign-in, so leave the secret empty and HTTP Basic auth off.
+	- **Everyone signs in as themselves.** The sign-ins in steps 5 and 7 are only for the admin. Each person authorises Evinced Site Scanner in the Gemini app with their own Evinced account (step 8) and sees only what that account can access.
+</Aside>
+
+## Part 1 · Before you start
+
+_A Google Cloud admin checks this once._
+
+### Step 1 · Check the MCP policy
+
+Google Cloud can stop Gemini Enterprise from connecting to custom MCP servers. If the policy below reads **Enforced** for your project, turn it off for that project only; the rest of your organization keeps it. You need the **Organization Policy Administrator** role.
+
+<Steps>
+
+1. Open **IAM & Admin › Organization policies**, find **Disable custom MCP server connector for Gemini Enterprise**, and click **Manage policy**.
+2. Under **Policy source**, choose **Override parent's policy**.
+3. Under **Rules**, keep one rule set to **Not enforced** (**Add a rule** if there is none).
+4. Click **Set policy**. Its status then reads **Not enforced**.
+
+</Steps>
+
+<Figure
+	src={policyedit}
+	width={540}
+	alt="The Edit policy page for Disable custom MCP server connector for Gemini Enterprise, with Override parent's policy as action 2, a rule set to Not enforced as action 3 and the Set policy button as action 4."
+/>
+
+<Aside>
+	Changes can take up to 15 minutes to reach Gemini Enterprise. Constraint:
+	`discoveryengine.managed.disableCustomMcpServerConnector`
+</Aside>
+
+## Part 2 · Add the connector
+
+_A Gemini Enterprise admin does this once._
+
+### Step 2 · Start a new data store
+
+In the Google Cloud console, open **Gemini Enterprise** in your project and select your app.
+
+<Steps>
+
+1. Open **Connected data stores**.
+2. Click **+ New data store**.
+
+</Steps>
+
+<Figure
+	src={stores}
+	width={760}
+	alt="The Gemini Enterprise console, with Connected data stores in the menu as action 1 and the New data store button as action 2."
+/>
+
+### Step 3 · Choose Custom MCP Server
+
+On **Select a data source**, scroll down to **MCP servers**.
+
+<Steps>
+
+1. On the **Custom MCP Server** card, click **Add MCP server**.
+
+</Steps>
+
+<Figure
+	src={source}
+	width={760}
+	alt="The Select a data source page scrolled to MCP servers, with the Custom MCP Server card highlighted as action 1."
+/>
+
+### Step 4 · Enter the server details
+
+Keep **OAuth 2.0** selected. Leave **Authorization URL Parameters** and **Client Secret** empty.
+
+<Steps>
+
+1. **MCP Server URL**
+
+   ```text
+   https://site-scanner-mcp.evinced.io/mcp
+   ```
+
+2. **Authorization URL**
+
+   ```text
+   https://site-scanner-mcp.evinced.io/authorize
+   ```
+
+3. **Token URL**
+
+   ```text
+   https://site-scanner-mcp.evinced.io/token
+   ```
+
+4. **Client ID**
+
+   ```text
+   iIHIYWjC4dNEWfjVw4g0knyUpgmNolGS
+   ```
+
+5. **Scopes**
+
+   ```text
+   openid profile email offline_access
+   ```
+
+6. **Enable PKCE Support**: on
+7. **Use HTTP Basic Authentication**: off
+8. Click **Verify Auth**.
+
+</Steps>
+
+<Figure
+	src={form}
+	width={500}
+	alt="The custom MCP server form, with actions 1 to 8 marking the server, authorization and token URLs, the client ID, the scopes, PKCE on, HTTP Basic authentication off and the Verify Auth button."
+/>
+
+### Step 5 · Sign in to verify
+
+**Verify Auth** opens the Evinced sign-in in a pop-up.
+
+<Steps>
+
+1. Enter your Evinced email, click **Continue**, and finish signing in. The pop-up closes on its own.
+
+   <Figure
+   	src={login}
+   	width={380}
+   	alt="The Evinced log-in pop-up, with the email field and Continue button highlighted as action 1."
+   />
+
+2. Check for **Successfully logged in.**
+
+   <Figure
+   	src={success}
+   	width={640}
+   	alt="Back in Gemini Enterprise, a green Successfully logged in message under the PKCE and HTTP Basic authentication settings, highlighted as action 2."
+   />
+
+3. Scroll down and click **Continue**.
+
+</Steps>
+
+### Step 6 · Name it and create
+
+Location stays **global (Global)**. The tag and the sensitive data protection policy are optional.
+
+<Steps>
+
+1. **Data connector name**: `Evinced Site-Scanner`
+2. Click **Create**. You land on the new connector's page, and **Evinced Site-Scanner** is listed under Connected data stores.
+
+</Steps>
+
+<Figure
+	src={name}
+	width={760}
+	alt="The Configure your data connector page, with the data connector name Evinced Site-Scanner as action 1 and the Create button as action 2."
+/>
+
+<Aside type="tip">
+	If Create reports **Operation denied by org policy**, complete [step 1](#step-1--check-the-mcp-policy). The change can take up to 15 minutes; then click **Create** again.
+</Aside>
+
+### Step 7 · Turn on the tools
+
+A new connector starts with every tool turned off. Gemini calls them actions.
+
+<Steps>
+
+1. On the connector's page, click **Go to actions**.
+
+   <Figure
+   	src={created}
+   	width={760}
+   	alt="The new connector's page, with a banner saying its actions are disabled and the Go to actions button highlighted as action 1."
+   />
+
+2. Click **Reload custom actions** and sign in to Evinced in the pop-up. The Site Scanner tools appear, all **Disabled**.
+3. Tick **Select all rows**.
+4. Click **Enable actions**. It appears once rows are selected.
+5. Check that every action shows **Enabled**.
+
+   <Figure
+   	src={actions}
+   	width={760}
+   	alt="The Actions tab, with Reload custom actions as action 2, the select-all checkbox as action 3, and every Site Scanner action's status reading Enabled."
+   />
+
+</Steps>
+
+<Aside>Gemini asks people to confirm each tool call before it runs.</Aside>
+
+## Part 3 · Start using it
+
+_Everyone does this once, each with their own Evinced account._
+
+### Step 8 · Connect your Evinced account
+
+Gemini works only with what your Evinced account can access.
+
+<Steps>
+
+1. Open your Gemini Enterprise app and click **Sources**, the sliders icon under the prompt box.
+2. Next to **Evinced Site Scanner**, click **Authorise** and sign in with your Evinced account.
+3. The pop-up closes and the **Evinced Site Scanner** toggle is on.
+
+</Steps>
+
+<div class="figure-row">
+	<Figure
+		src={sources}
+		width={330}
+		alt="The Gemini Enterprise prompt box with the Sources menu open: the Sources icon as action 1 and the Authorise link next to Evinced Site Scanner as action 2."
+		caption="Before: 1 Sources, 2 Authorise"
+	/>
+	<Figure
+		src={sourcesOn}
+		width={330}
+		alt="The Sources menu with the Evinced Site Scanner toggle switched on, highlighted as connected."
+		caption="After: connected"
+	/>
+</div>
+
+### Step 9 · Confirm the connection
+
+The **whoami** tool only reads. It's the quickest way to check which account Gemini is using.
+
+<Steps>
+
+1. Start a chat and ask:
+
+   ```text wrap
+   Use the Evinced Site Scanner connector to run its whoami tool.
+   ```
+
+2. Gemini shows the tool it wants to run. Click **Send**.
+
+   <Figure
+   	src={askConfirm}
+   	width={700}
+   	alt="Gemini Enterprise asks before it runs the whoami tool, with the Send button highlighted as action 2."
+   />
+
+3. Gemini replies with the Evinced account and tenant it's using.
+
+   <Figure
+   	src={whoami}
+   	width={700}
+   	alt="Gemini's answer listing the connected account, active tenant and plan level, highlighted as your account and tenant. The values are censored."
+   	caption="Account details censored for this guide"
+   />
+
+</Steps>
+
+<Aside>Gemini asks before every tool call, so a **Send** / **Cancel** card appears each time.</Aside>
+
+### Step 10 · Ask a real question
+
+Ask in plain language. Gemini picks the Site Scanner tool that fits.
+
+<Steps>
+
+1. Ask about your sites, for example:
+
+   ```text wrap
+   List my Evinced Site Scanner properties with their latest scan date and score.
+   ```
+
+2. Check the details Gemini will send (here, how many properties) and click **Send**.
+
+   <Figure
+   	src={listConfirm}
+   	width={700}
+   	alt="A review card for List Evinced Properties with a limit of 5, and the Send button highlighted as action 2."
+   />
+
+3. Gemini answers from your live Site Scanner data.
+
+   <Figure
+   	src={listResult}
+   	width={700}
+   	alt="Gemini's answer listing five Evinced properties with their name, latest scan date and accessibility score. The values are censored."
+   	caption="Property names, dates and scores censored for this guide"
+   />
+
+</Steps>
+
+## If something goes wrong
+
+| What you see | What to do |
+| --- | --- |
+| **"Operation denied by org policy"** when you click Create | Your organization still blocks custom MCP servers for Gemini Enterprise. Complete [step 1](#step-1--check-the-mcp-policy), wait a few minutes (up to 15), and click **Create** again. |
+| **"Callback URL mismatch"** when you click Verify Auth | Evinced's sign-in doesn't recognise Gemini Enterprise. Email [support@evinced.com](mailto:support@evinced.com). |
+| **"No actions are enabled"** after you create the connector | Gemini can't use any tool yet. Complete [step 7](#step-7--turn-on-the-tools): reload the actions, select all, and click **Enable actions**. |
+| **Evinced Site Scanner shows "Authorise"** in the Gemini app | That's expected the first time. Click it and sign in with your Evinced account ([step 8](#step-8--connect-your-evinced-account)). |
+
+<details>
+<summary>What the org policy error looks like</summary>
+
+<Figure
+	src={denied}
+	width={600}
+	alt="A Google Cloud error: Something went wrong, Operation denied by org policy, naming the disableCustomMcpServerConnector constraint from step 1. Project and tracking numbers are censored."
+/>
+
+</details>
+
+<Aside type="tip" title="Still stuck?">
+	Email [support@evinced.com](mailto:support@evinced.com) and include the MCP server URL, `https://site-scanner-mcp.evinced.io/mcp`.
+</Aside>
+
+## That's it
+
+**Evinced Site-Scanner** is live in Gemini Enterprise. Each person connects their own Evinced account once, and Gemini asks before each tool call.
+
+<Figure
+	src={live}
+	width={760}
+	alt="The Connected data stores list showing Evinced Site-Scanner as a Custom MCP Server with status Active."
+/>
+
+<CardGrid>
+	<LinkCard
+		title="Claude setup guide"
+		href="/guides/site-scanner-mcp/claude/"
+		description="Add the same server to Claude."
+	/>
+	<LinkCard
+		title="Privacy policy"
+		href="/policies/site-scanner-mcp/privacy/"
+		description="What the Site Scanner MCP Server handles, and why."
+	/>
+</CardGrid>
