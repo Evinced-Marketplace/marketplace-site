@@ -22,7 +22,7 @@ This Privacy Policy explains how Evinced, Inc. ("Evinced", "we", "us") handles i
 
 The Service collects only what it needs to answer your AI assistant's requests and to keep a record of them.
 
-2.1 **Access token.** Your AI assistant sends your Evinced access token with each request. The Service uses it to act on your behalf with the Evinced platform. The hosted Service does not store the token. Our records identify it only by a one-way hash.
+2.1 **Access token.** Your AI assistant sends your Evinced access token with each request. The Service uses it to act on your behalf with the Evinced platform. The hosted Service holds the token only in memory and never writes it to its records, which identify it by a one-way hash.
 
 2.2 **Identity information.** Your token carries your email address, name, Evinced user ID, organization (tenant) and the app you connected with. The Service also reads your organization's name and your internal user ID from the Evinced platform.
 
@@ -60,19 +60,22 @@ We use information only to run, secure and improve the Service.
 
 ## 4. Storage and retention
 
-The hosted Service has no database and does not write your information to disk. It keeps a short-lived cache in memory and sends request records to our log provider.
+The hosted Service has no database or file storage of its own. It keeps a cache in memory, writes request records to its server logs, and sends a copy of each record, without your email or name, to our log provider.
 
 | Information | Where it is kept | How long |
 | --- | --- | --- |
-| Cached results (hosted) | Server memory, separated by account | Scan results: until the server restarts. Lists of scans and properties: 1 hour. Other results: 15 minutes |
-| Request records | Server logs | Until the server restarts |
+| Cached results (hosted) | Server memory, separated by account | Until the server restarts. Lists of scans and properties are refreshed after 1 hour, other results after 15 minutes; scan results are not refreshed |
+| Component labels (hosted) | Server memory, shared between accounts | Until the server restarts |
+| Access token (hosted) | Server memory only | Until the server restarts |
+| Request records | Server logs on our hosting platform | Until the server is replaced or its log rotates |
 | Request records | Our log provider, without your email or name | 30 days |
-| Access token (hosted) | Not stored | — |
 | Access token (local) | A file on your device, readable only by your user account | Until you sign out |
 | Cached results (local) | A folder on your device | Until you clear it |
 | Public website content | Not stored | — |
 
-Servers restart whenever we release a new version, which also clears their cache and local logs.
+Component labels are short names, such as "Main navigation", that the Service derives from a page component's own markup. They are cached by component rather than by account, so another account that scans an identical component may see the same label.
+
+Servers are replaced whenever we release a new version, which clears their memory and their server logs.
 
 ## 5. Sharing and service providers
 
@@ -100,7 +103,7 @@ We protect your information with technical and organisational measures that fit 
 
 - **Encryption in transit:** all connections to the hosted Service use HTTPS.
 - **No stored credentials:** the hosted Service keeps no passwords or tokens. Sign-in uses OAuth 2.0 with PKCE through Auth0.
-- **Separation between accounts:** each account's cached data is keyed to its own token, so one account cannot read another's.
+- **Separation between accounts:** cached scan data is keyed to each account's own token, so one account cannot read another's. Component labels are the one shared cache (section 4).
 - **Redaction:** passwords, tokens, cookies, credentials and usernames are removed from request records before they are written.
 - **Restricted fetching:** site analysis reaches only public internet addresses, never our internal network.
 - **Restricted access:** only authorised Evinced personnel can read server logs and log records.
@@ -114,7 +117,7 @@ No system is perfectly secure. To report a security issue, email [security@evinc
 
 7.2 **Sign out of a local install.** Call the `logout` tool to delete the token stored on your device. Call `authenticate` to sign in again or switch accounts.
 
-7.3 **Clear cached data.** Call the `clear_cache` tool to remove your cached results, for one scan or all of them, from the server that handles the call. Copies on other servers expire as set out in section 4.
+7.3 **Clear cached data.** Call the `clear_cache` tool. Without a scan ID it removes all of your cached results. With a scan ID it removes that scan's comparison data, and its raw results too when you set `clear_scan_results`. It acts on the server that handles the call; copies on other servers stay until those servers restart. Shared component labels are not removed.
 
 7.4 **Your privacy rights.** Depending on where you live, you may have the right to:
 

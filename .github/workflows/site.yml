@@ -12,7 +12,8 @@ permissions:
 
 concurrency:
   group: site-${{ github.ref }}
-  cancel-in-progress: true
+  # Superseded PR builds are cancelled; a deploy from main is never cut off mid-run.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -24,7 +25,8 @@ jobs:
 
   deploy:
     name: Deploy
-    if: github.event_name != 'pull_request'
+    # Only main publishes, including a manual run: a dispatch from any other branch builds but never deploys.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
