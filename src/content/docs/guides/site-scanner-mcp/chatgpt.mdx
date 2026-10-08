@@ -1,0 +1,346 @@
+---
+title: Site Scanner MCP Server — ChatGPT setup guide
+description: Add the Evinced Site Scanner plugin to your ChatGPT workspace, connect your Evinced account and ask ChatGPT about your accessibility scan results.
+---
+
+import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+import Figure from '../../../../components/Figure.astro';
+import add from '../../../../assets/guides/site-scanner-mcp/chatgpt/add.png';
+import menu from '../../../../assets/guides/site-scanner-mcp/chatgpt/menu.png';
+import form from '../../../../assets/guides/site-scanner-mcp/chatgpt/form.png';
+import authorize from '../../../../assets/guides/site-scanner-mcp/chatgpt/authorize.png';
+import login from '../../../../assets/guides/site-scanner-mcp/chatgpt/login.png';
+import reviewPage from '../../../../assets/guides/site-scanner-mcp/chatgpt/review-page.png';
+import review from '../../../../assets/guides/site-scanner-mcp/chatgpt/review.png';
+import listed from '../../../../assets/guides/site-scanner-mcp/chatgpt/listed.png';
+import card from '../../../../assets/guides/site-scanner-mcp/chatgpt/card.png';
+import installed from '../../../../assets/guides/site-scanner-mcp/chatgpt/installed.png';
+import chat from '../../../../assets/guides/site-scanner-mcp/chatgpt/chat.png';
+import whoami from '../../../../assets/guides/site-scanner-mcp/chatgpt/whoami.png';
+import list from '../../../../assets/guides/site-scanner-mcp/chatgpt/list.png';
+
+Connect **ChatGPT** to **Evinced Site Scanner MCP** and ask ChatGPT about your accessibility scan results in plain language. A workspace admin adds the plugin once; then each person connects their own Evinced account.
+
+## The setup at a glance
+
+<CardGrid>
+	<Card title="Part 1 · Add the plugin" icon="setting">
+		_ChatGPT workspace admin, once_
+
+		1. [Open Plugins](#step-1--open-plugins)
+		2. [Choose Create MCP plugin](#step-2--choose-create-mcp-plugin)
+		3. [Enter the name and URL](#step-3--enter-the-name-and-url)
+		4. [Sign in to Evinced](#step-4--sign-in-to-evinced)
+		5. [Review and publish](#step-5--review-and-publish)
+	</Card>
+	<Card title="Part 2 · Start using it" icon="rocket">
+		_Everyone, once each_
+
+		6. [Connect your Evinced account](#step-6--connect-your-evinced-account)
+		7. [Pick it in a chat](#step-7--pick-it-in-a-chat)
+		8. [Confirm the connection](#step-8--confirm-the-connection)
+		9. [Ask a real question](#step-9--ask-a-real-question)
+	</Card>
+</CardGrid>
+
+**You need** an admin or owner role in a ChatGPT Business or Enterprise workspace, an Evinced Site Scanner account, and about 10 minutes.
+
+<Aside title="Not an admin?">
+	Where your workspace allows it, add the plugin just for yourself: in ChatGPT, **Plugins › Add › Add custom MCP server**, with the same name and URL, then **Create as a plugin**.
+</Aside>
+
+## What you'll enter
+
+Every value used in step 3. Copy them exactly.
+
+| Field | Value |
+| --- | --- |
+| Custom name | `Evinced Site Scanner` |
+| MCP Server URL | `https://site-scanner-mcp.evinced.io/mcp` |
+| Authentication | `OAuth`, already selected |
+| Advanced authentication settings | _Leave as they are_ |
+| Description (optional) | `Accessibility scan results` |
+| Icon (optional) | [The Evinced icon](/evinced-icon.png), or none |
+
+<Aside type="tip" title="Good to know">
+	- **Nothing else to configure.** ChatGPT reads the server's sign-in settings on its own, so the advanced settings stay as they are.
+	- **Everyone signs in as themselves.** Each person connects their own Evinced account (step 6) and sees only what that account can access.
+	- **Three tools can make changes.** **Create Property** adds a property to your account. **Preprocess Scan** and **Clear Cache** only manage cached scan data. An admin can switch tools off for the workspace (step 5).
+</Aside>
+
+## Part 1 · Add the plugin
+
+_A ChatGPT workspace admin does this once._
+
+### Step 1 · Open Plugins
+
+Adding a plugin for your whole workspace takes an **admin** or **owner** role.
+
+<Steps>
+
+1. Go to [admin.openai.com](https://admin.openai.com), choose your ChatGPT workspace and open **Plugins**.
+2. Click **+ Add**.
+
+</Steps>
+
+<Figure
+	src={add}
+	width={760}
+	alt="The Admin Console's Plugins page on the workspace's tab, with the Add button at top right highlighted as action 2."
+/>
+
+### Step 2 · Choose Create MCP plugin
+
+The Site Scanner server is hosted online, so the plugin is made from its URL.
+
+<Steps>
+
+1. In the **Add** menu, click **Create MCP plugin**.
+
+</Steps>
+
+<Figure
+	src={menu}
+	width={470}
+	alt="The Add menu open, with Create MCP plugin, create a plugin from an MCP URL, highlighted as action 1."
+/>
+
+<Aside>**Upload plugin** and **Import marketplace** are for packaged plugins.</Aside>
+
+### Step 3 · Enter the name and URL
+
+The **New custom plugin** dialog opens.
+
+<Steps>
+
+1. **Custom name**: `Evinced Site Scanner`
+2. **MCP Server URL**:
+
+   ```text
+   https://site-scanner-mcp.evinced.io/mcp
+   ```
+
+3. Tick **I understand and want to continue**.
+4. Click **Create**.
+
+</Steps>
+
+<Figure
+	src={form}
+	width={420}
+	alt="The New custom plugin dialog: the custom name Evinced Site Scanner as action 1, the MCP Server URL as action 2, the I understand and want to continue box ticked as action 3 and the Create button as action 4. Authentication is set to OAuth."
+/>
+
+<Aside>Keep **Authentication** on **OAuth**. The description and icon are optional.</Aside>
+
+### Step 4 · Sign in to Evinced
+
+ChatGPT opens an authorization window so it can read the server's tools.
+
+<Steps>
+
+1. Sign in with your Evinced account in the window that opens.
+
+   <div class="figure-row">
+   	<Figure
+   		src={authorize}
+   		width={440}
+   		alt="The New custom plugin dialog waiting, with the message Complete the connection in the authorization window."
+   		caption="The dialog waits for your sign-in"
+   	/>
+   	<Figure
+   		src={login}
+   		width={330}
+   		alt="The Evinced log-in page, with the email field and Continue button highlighted."
+   		caption="Sign in to Evinced"
+   	/>
+   </div>
+
+2. Back in the Admin Console, open **Evinced Site Scanner** in your workspace's plugin list.
+
+</Steps>
+
+<Aside>If the dialog is still open after you sign in, close it and reload the page.</Aside>
+
+### Step 5 · Review and publish
+
+A new plugin stays switched off until an admin reviews it.
+
+<Steps>
+
+1. On the plugin's page, click **Review app**.
+
+   <Figure
+   	src={reviewPage}
+   	width={600}
+   	alt="The Evinced Site Scanner plugin page in the Admin Console, asking to review the tools and role access, with the Review app button highlighted as action 1."
+   />
+
+2. Open each **Review potential risk** item, tick its boxes and go **Back**.
+3. Click **Publish**.
+
+   <Figure
+   	src={review}
+   	width={400}
+   	alt="The review dialog for Evinced Site Scanner: role access for all roles, 17 tools enabled, both potential risks marked Reviewed as action 2, and the Publish button as action 3."
+   />
+
+</Steps>
+
+**Evinced Site Scanner** now shows as **Enabled** in your workspace's plugins, available for everyone to install.
+
+<Figure
+	src={listed}
+	width={760}
+	alt="The workspace's plugin list in the Admin Console, showing Evinced Site Scanner as a Workspace plugin that is Available and Enabled. The developer's details are censored."
+	caption="Developer details censored for this guide"
+/>
+
+<Aside>In the review dialog, **Role access** and **Configure tools** limit who can use the plugin and which tools it offers.</Aside>
+
+## Part 2 · Start using it
+
+_Everyone does this once, each with their own Evinced account._
+
+### Step 6 · Connect your Evinced account
+
+<Steps>
+
+1. In ChatGPT, open **Plugins**, choose your workspace's tab and click **+** on **Evinced Site Scanner**.
+
+   <Figure
+   	src={card}
+   	width={440}
+   	alt="ChatGPT's Plugins page on the workspace's tab, showing the Evinced Site Scanner plugin with its plus button highlighted as action 1."
+   />
+
+2. Sign in with your Evinced account in the tab that opens.
+
+   <Figure
+   	src={login}
+   	width={330}
+   	alt="The Evinced log-in page, with the email field and Continue button highlighted."
+   />
+
+3. Back in ChatGPT, the plugin is installed: you're connected.
+
+   <Figure
+   	src={installed}
+   	width={440}
+   	alt="The Evinced Site Scanner plugin in ChatGPT, marked Installed."
+   />
+
+</Steps>
+
+### Step 7 · Pick it in a chat
+
+ChatGPT uses installed plugins when they fit. Picking it yourself makes sure.
+
+<Steps>
+
+1. In the message box, click **+**.
+2. Type **Evinced** and choose **Evinced Site Scanner**.
+
+</Steps>
+
+<Figure
+	src={chat}
+	width={640}
+	alt="ChatGPT's message box: the plus button as action 1, and Evinced Site Scanner in the Plugins list as action 2 after typing Evinced."
+/>
+
+<Aside>
+	You can also type **@** in the message box and pick the plugin from the list. In **Work** mode, click **Plugins** under the message box.
+</Aside>
+
+### Step 8 · Confirm the connection
+
+The **Who Am I** tool only reads. It's the quickest way to check which account ChatGPT is using.
+
+<Steps>
+
+1. With the plugin picked, ask:
+
+   ```text wrap
+   run your whoami tool.
+   ```
+
+2. ChatGPT replies with your Evinced account and tenant.
+
+</Steps>
+
+<Figure
+	src={whoami}
+	width={700}
+	alt="ChatGPT's answer after using Evinced Site Scanner, naming the connected user and tenant, highlighted as your account and tenant. The values are censored."
+	caption="Account details censored for this guide"
+/>
+
+<Aside>Do this first in a new chat: ChatGPT asks you to confirm the tenant before it fetches any data.</Aside>
+
+### Step 9 · Ask a real question
+
+Ask in plain language. ChatGPT picks the Site Scanner tool that fits.
+
+<Steps>
+
+1. In the same chat, ask about your sites, for example:
+
+   ```text wrap
+   List my properties as a table: name, latest scan date and score.
+   ```
+
+2. ChatGPT runs the matching tool (here, **List Properties**) and answers from your live Site Scanner data.
+
+</Steps>
+
+<Figure
+	src={list}
+	width={700}
+	alt="ChatGPT's answer from the List Properties tool: a table of properties with their latest scan date and score. The values are censored."
+	caption="Property names, dates and scores censored for this guide"
+/>
+
+## Work mode and Codex
+
+The plugin also works where ChatGPT runs tasks. In **Work** mode, click **Plugins** under the message box, choose **Evinced Site Scanner**, and ask as in steps 8 and 9.
+
+<Aside type="caution" title="Don't add the server with codex mcp add">
+	Evinced's sign-in accepts ChatGPT's own sign-in route only. If you add `https://site-scanner-mcp.evinced.io/mcp` directly with `codex mcp add`, signing in fails with **Callback URL mismatch**. Use the plugin, as above.
+</Aside>
+
+## If something goes wrong
+
+| What you see | What to do |
+| --- | --- |
+| **No "Create MCP plugin"** when you click Add | Only workspace admins and owners can add plugins in the Admin Console. On Enterprise, also switch on **Create plugins with MCPs** under **Workspace settings › Permissions & roles**. |
+| **"Could not complete this request"** when you click Create | A plugin for the same server URL already exists, for example one you added just for yourself. Delete that one, then create the plugin again. |
+| **Evinced Site Scanner isn't listed** in Plugins | An admin hasn't published it yet, or your role doesn't have access to it. Ask an admin to check the plugin's **Role access**. |
+| **ChatGPT asks you to confirm the tenant** | That's the server's first check in a new chat. Confirm it, or run whoami first ([step 8](#step-8--confirm-the-connection)). |
+| **Wrong Evinced account** after you connect | In **Plugins**, open **⋯** on Evinced Site Scanner and choose **Uninstall**, then add it again ([step 6](#step-6--connect-your-evinced-account)). The sign-in asks for your credentials each time. |
+
+<Aside type="tip" title="Still stuck?">
+	Email [support@evinced.com](mailto:support@evinced.com) and include the server URL, `https://site-scanner-mcp.evinced.io/mcp`.
+</Aside>
+
+## That's it
+
+**Evinced Site Scanner** is ready in ChatGPT. Each person connects their own Evinced account once.
+
+<CardGrid>
+	<LinkCard
+		title="Claude setup guide"
+		href="/guides/site-scanner-mcp/claude/"
+		description="Add the same server to your Claude organization."
+	/>
+	<LinkCard
+		title="Gemini Enterprise setup guide"
+		href="/guides/site-scanner-mcp/gemini-enterprise/"
+		description="Add the same server to Gemini Enterprise."
+	/>
+	<LinkCard
+		title="Privacy policy"
+		href="/policies/site-scanner-mcp/privacy/"
+		description="What the Site Scanner MCP Server handles, and why."
+	/>
+</CardGrid>
