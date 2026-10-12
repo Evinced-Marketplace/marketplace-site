@@ -26,6 +26,7 @@ export default defineConfig({
 					label: 'Policies',
 					items: [
 						{ label: 'Overview', slug: 'policies' },
+						{ label: 'Evinced Privacy Policy', slug: 'policies/privacy' },
 						{
 							label: 'Site Scanner MCP Server',
 							items: [{ label: 'Privacy policy', slug: 'policies/site-scanner-mcp/privacy' }],
