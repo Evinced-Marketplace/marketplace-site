@@ -1,0 +1,166 @@
+---
+title: Site Scanner MCP Server — how to use it
+description: What you can ask your AI assistant about your Evinced Site Scanner results, with example prompts for scores, issues, fix priorities, scan comparisons and new sites.
+---
+
+import { Aside, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Once **Evinced Site Scanner** is connected to your AI assistant, you can ask about your accessibility scan results in plain language. The assistant picks the right Site Scanner tool, reads your live data and answers. This guide shows what you can ask, with prompts you can copy.
+
+It works the same way in Claude, Claude Code, ChatGPT and Gemini Enterprise.
+
+## Before you start
+
+- **Connect it first.** Follow the setup guide for your assistant: [Claude](/guides/site-scanner-mcp/claude/), [Claude Code](/guides/site-scanner-mcp/claude-code/), [ChatGPT](/guides/site-scanner-mcp/chatgpt/) or [Gemini Enterprise](/guides/site-scanner-mcp/gemini-enterprise/).
+- **You see what your account sees.** You sign in with your own Evinced account, and the assistant can only read the sites and scans that account can access.
+
+## Start with your account
+
+Begin each conversation by checking which Evinced account the assistant is using. The assistant is asked to do this on its own before it reads any data, and to check with you before going on.
+
+```text wrap
+Which Evinced account and tenant am I signed in as?
+```
+
+If it's the wrong account, reconnect as shown in your assistant's setup guide, under **If something goes wrong**.
+
+## What you can ask
+
+Use your site's name as it appears in Site Scanner. Not sure of the name? Start by asking for the list of your sites.
+
+### See your sites and scores
+
+```text wrap
+List my Evinced Site Scanner properties with their latest scan date and score.
+```
+
+```text wrap
+What's our overall accessibility score across all our sites, and how has it changed since the last scan?
+```
+
+### Understand a scan
+
+```text wrap
+Give me an overview of the latest scan of <site>: issues by severity, and the pages with the most issues.
+```
+
+```text wrap
+List the critical issues in the latest scan of <site>.
+```
+
+### Decide what to fix first
+
+Ask for the fixes that improve your site the most for the least work.
+
+```text wrap
+What are the highest-impact fixes in the latest scan of <site>?
+```
+
+The assistant ranks two kinds of fixes:
+
+- **Components:** a piece of your site's code, such as a menu or a card, that repeats across many pages. Fix it once and every copy is fixed.
+- **Widespread issues:** an issue type found on many pages that usually comes from one shared cause, such as a style sheet or a page template.
+
+Fixes are ranked the way your Evinced score is calculated: by severity, by WCAG level and by the number of issues they fix.
+
+Then go deeper on any result:
+
+```text wrap
+Show me the details of the top component: the pages it's on, its selector and its code.
+```
+
+```text wrap
+Show me where this component sits on the page, and which larger part of the page it belongs to.
+```
+
+For the second prompt, the assistant looks at a screenshot of the page to find the part of your code to fix, such as a navigation bar, a form or a header.
+
+### Track progress between scans
+
+```text wrap
+Compare the last two scans of <site>. What was fixed, and what's new?
+```
+
+<Aside title="What counts as fixed">
+	A component counts as fixed only when it's gone from the newer scan. If a component is still there with fewer issues, the scan most likely covered fewer pages: the code behind it hasn't changed yet.
+</Aside>
+
+### Set up a new site
+
+The assistant can explore a public website and suggest how to set it up in Site Scanner: where to start the crawl, how to group pages, which languages to include and how to accept the cookie banner.
+
+```text wrap
+Analyze https://www.example.com and suggest a Site Scanner property configuration.
+```
+
+Review the suggestion, then ask the assistant to create it:
+
+```text wrap
+Create the property with that configuration.
+```
+
+<Aside type="caution" title="This one makes a change">
+	Creating a property is the only action that changes your Evinced account. Every other tool only reads your account. Your assistant may ask you to approve it first.
+</Aside>
+
+On sites in several languages, the suggestion covers the English pages only. Ask for other languages if you want them scanned too.
+
+## Tips for better answers
+
+- **Name the scan.** Say "the latest scan", "the scan from 1 September" or "the last two scans".
+- **Ask for the format you need**, such as a table, a short summary for your manager, or a list of tickets for your developers.
+- **Ask follow-up questions.** The assistant remembers the conversation, so "why is that one first?" or "show me the pages for number 3" work.
+- **Check before you act.** The data comes from Site Scanner, but the explanations are written by the AI. Ask for a link to open a component in Site Scanner and check it there.
+- **Approve tool use.** Your assistant may ask before it uses a Site Scanner tool. Allow it, or always allow the read-only tools you trust.
+
+## All the tools
+
+You don't need to name a tool: ask your question and the assistant chooses. This list helps if you want to.
+
+| Tool | What it does |
+| --- | --- |
+| Who Am I | Shows the Evinced account and tenant you're signed in as |
+| List Properties | Lists your sites with their score and latest scan |
+| Get Property | Shows the details of one site |
+| List Scans | Lists the scans of one site with their dates and scores |
+| Get Scan Overview | Summarizes one scan: issues by severity and type, pages and components |
+| Get Issues | Lists a scan's issues, filtered by severity or issue type if you like |
+| Get Pages | Lists a scan's pages, most issues first |
+| Get Components | Lists a scan's components, most issues first |
+| Get Tenant Overview | Shows your overall score, critical issues and pages monitored, compared to the last scan |
+| Analyze Fix ROI | Ranks the fixes with the most impact in a scan |
+| Get Component Details | Shows a component's pages, selector, code and issues |
+| Expand Component Scope | Uses a page screenshot to find the larger part of the page a component belongs to |
+| Compare Scans | Shows what was fixed, what's still there and what's new between two scans |
+| Analyze Site Structure | Explores a public website and suggests a property configuration |
+| Create Property | Adds a new site to Site Scanner. **The only tool that makes a change** |
+| Preprocess Scan | Prepares a scan so later questions about it answer faster |
+| Clear Cache | Clears prepared data, so the next answer reads fresh data from Site Scanner |
+
+## If something goes wrong
+
+| What you see | What to do |
+| --- | --- |
+| **The assistant answers without Site Scanner data** | Make sure the connector is switched on for this conversation, then ask again and add "Use the Evinced Site Scanner connector." |
+| **Wrong account or tenant** | Ask the assistant which account you're using, then reconnect as shown in your assistant's setup guide. |
+| **A site or scan is missing** | Your Evinced account sees only the sites it has access to, and very old scans may no longer be available. Ask for the list of sites or scans to see what's there. |
+| **The first answer about a scan is slow** | The first analysis of a large scan reads a lot of data. Follow-up questions about the same scan are faster. |
+
+<Aside type="tip" title="Still stuck?">
+	Email [support@evinced.com](mailto:support@evinced.com) and include the connector URL, `https://site-scanner-mcp.evinced.io/mcp`.
+</Aside>
+
+## More
+
+<CardGrid>
+	<LinkCard
+		title="Setup guides"
+		href="/guides/"
+		description="Connect Site Scanner to Claude, Claude Code, ChatGPT or Gemini Enterprise."
+	/>
+	<LinkCard
+		title="Privacy policy"
+		href="/policies/site-scanner-mcp/privacy/"
+		description="What the Site Scanner MCP Server handles, and why."
+	/>
+</CardGrid>

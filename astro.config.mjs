@@ -44,6 +44,7 @@ export default defineConfig({
 								{ label: 'Claude Code', slug: 'guides/site-scanner-mcp/claude-code' },
 								{ label: 'ChatGPT', slug: 'guides/site-scanner-mcp/chatgpt' },
 								{ label: 'Gemini Enterprise', slug: 'guides/site-scanner-mcp/gemini-enterprise' },
+								{ label: 'How to use it', slug: 'guides/site-scanner-mcp/using' },
 							],
 						},
 					],
