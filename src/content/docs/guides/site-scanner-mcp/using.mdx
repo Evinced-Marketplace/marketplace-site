@@ -117,25 +117,29 @@ On sites in several languages, the suggestion covers the English pages only. Ask
 
 You don't need to name a tool: ask your question and the assistant chooses. This list helps if you want to.
 
-| Tool | What it does |
-| --- | --- |
-| Who Am I | Shows the Evinced account and tenant you're signed in as |
-| List Properties | Lists your sites with their score and latest scan |
-| Get Property | Shows the details of one site |
-| List Scans | Lists the scans of one site with their dates and scores |
-| Get Scan Overview | Summarizes one scan: issues by severity and type, pages and components |
-| Get Issues | Lists a scan's issues, filtered by severity or issue type if you like |
-| Get Pages | Lists a scan's pages, most issues first |
-| Get Components | Lists a scan's components, most issues first |
-| Get Tenant Overview | Shows your overall score, critical issues and pages monitored, compared to the last scan |
-| Analyze Fix ROI | Ranks the fixes with the most impact in a scan |
-| Get Component Details | Shows a component's pages, selector, code and issues |
-| Expand Component Scope | Uses a page screenshot to find the larger part of the page a component belongs to |
-| Compare Scans | Shows what was fixed, what's still there and what's new between two scans |
-| Analyze Site Structure | Explores a public website and suggests a property configuration |
-| Create Property | Adds a new site to Site Scanner. **The only tool that makes a change** |
-| Preprocess Scan | Prepares a scan so later questions about it answer faster |
-| Clear Cache | Clears prepared data, so the next answer reads fresh data from Site Scanner |
+| Tool | Access | What it does |
+| --- | --- | --- |
+| Who Am I | Read | Shows the Evinced account and tenant you're signed in as |
+| List Properties | Read | Lists your sites with their score and latest scan |
+| Get Property | Read | Shows the details of one site |
+| List Scans | Read | Lists the scans of one site with their dates and scores |
+| Get Scan Overview | Read | Summarizes one scan: issues by severity and type, pages and components |
+| Get Issues | Read | Lists a scan's issues, filtered by severity or issue type if you like |
+| Get Pages | Read | Lists a scan's pages, most issues first |
+| Get Components | Read | Lists a scan's components, most issues first |
+| Get Tenant Overview | Read | Shows your overall score, critical issues and pages monitored, compared to the last scan |
+| Analyze Fix ROI | Read | Ranks the fixes with the most impact in a scan |
+| Get Component Details | Read | Shows a component's pages, selector, code and issues |
+| Expand Component Scope | Read | Uses a page screenshot to find the larger part of the page a component belongs to |
+| Compare Scans | Read | Shows what was fixed, what's still there and what's new between two scans |
+| Analyze Site Structure | Read | Explores a public website and suggests a property configuration |
+| Create Property | Write | Adds a new site to Site Scanner. The only tool that changes your Evinced account |
+| Preprocess Scan | Write (cache) | Prepares a scan so later questions about it answer faster |
+| Clear Cache | Write (cache) | Clears prepared data, so the next answer reads fresh data from Site Scanner |
+
+- **Read:** only reads, and changes nothing in your Evinced account.
+- **Write:** changes your Evinced account. Create Property is the only one.
+- **Write (cache):** changes only the Site Scanner MCP Server's own copy of your scan data, never your Evinced account.
 
 ## If something goes wrong
 
